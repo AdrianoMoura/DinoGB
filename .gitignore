@@ -1,0 +1,6 @@
+.vscode
+run.bat
+build
+src/dino.c
+src/dino.h
+_make.bat
