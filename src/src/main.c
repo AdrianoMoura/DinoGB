@@ -11,6 +11,7 @@ void main(void)
     {
         frame_count++;
         
+        // Testing the night transition
         if (joypad() & J_START)
         {
             night_transition();
