@@ -11,18 +11,24 @@ void main(void)
     {
         frame_count++;
         
-        // Testing the night transition
-        if (joypad() & J_START)
-        {
-            night_transition();
-        }
-
         if (!is_game_over)
         {
             update_dino();
             animate_dino();
             check_jump();
 
+            // Testing increasing speed
+            if (frame_count % (60 * 10) == 0)
+            {
+                speed = speed + 1 > max_speed ? max_speed : speed + 1;
+            }
+
+            if (frame_count % (60 * 60) == 0)
+            {
+                night_transition();
+            }
+
+            // Testing game over
             // if (frame_count > 60 * 3)
             // {
             //     game_over();

@@ -2,8 +2,9 @@
 #include "../include/game.h"
 
 BOOLEAN is_game_over = FALSE;
-uint8_t speed = 1; // Set initial speed
-uint8_t last_speed = 1; // Set initial speed
+uint8_t speed = 1; // initial speed
+uint8_t max_speed = 5;
+uint8_t last_speed = 1;
 uint8_t night = FALSE;
 
 // Pallete transition for night and day effect
@@ -87,12 +88,14 @@ void night_transition(void)
     night = !night;
 }
 
-void pause(void) {
+void pause(void)
+{
     last_speed = speed;
     speed = 0;
 }
 
-void unpause(void) {
+void unpause(void)
+{
     speed = last_speed;
 }
 

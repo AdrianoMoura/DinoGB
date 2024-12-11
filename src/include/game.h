@@ -9,6 +9,7 @@
 
 extern BOOLEAN is_game_over;
 extern uint8_t speed;
+extern uint8_t max_speed;
 
 void initialize_game(void);
 void game_over(void);
