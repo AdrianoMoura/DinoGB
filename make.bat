@@ -16,3 +16,5 @@ lcc -Wa-l -Wl-m -Wf--debug -Wl-y -Wl-w -DUSE_SFT_FOR_REG -c -o ./build/objects/C
 
 :: Linker of the .o files into .gb
 lcc -Wa-l -Wl-m -Wf--debug -Wl-y -Wl-w -DUSE_SFT_FOR_REG -o ./build/dino.gb ./build/objects/main.o ./build/objects/dino.o ./build/objects/cactus.o ./build/objects/sound.o ./build/objects/parallax.o ./build/objects/game.o ./build/objects/BackgroundTileMapNight.o ./build/objects/BackgroundTileMapDay.o ./build/objects/BackgroundTileSet.o ./build/objects/DinoTileSet.o ./build/objects/CactusTileSet.o ./build/objects/CharacterTileSet.o
+
+copy .\build\dino.gb .\ /Y
