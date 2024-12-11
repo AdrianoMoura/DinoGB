@@ -14,5 +14,7 @@ void initialize_game(void);
 void game_over(void);
 void restart_game(void);
 void night_transition(void);
+void pause(void);
+void unpause(void);
 
 #endif

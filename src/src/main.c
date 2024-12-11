@@ -25,7 +25,7 @@ void main(void)
 
             // if (frame_count > 60 * 3)
             // {
-            //     gameOver();
+            //     game_over();
             // }
         }
         else

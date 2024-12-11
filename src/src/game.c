@@ -3,6 +3,7 @@
 
 BOOLEAN is_game_over = FALSE;
 uint8_t speed = 1; // Set initial speed
+uint8_t last_speed = 1; // Set initial speed
 uint8_t night = FALSE;
 
 // Pallete transition for night and day effect
@@ -21,40 +22,6 @@ const uint8_t palette_inverted[] = {
 };
 
 #define NUM_STEPS 4
-
-void night_transition(void)
-{
-    if (!night)
-    {
-        for (uint8_t i = 0; i < NUM_STEPS; i++)
-        {
-            BGP_REG = palette_normal[i];
-            OBP0_REG = palette_normal[i];
-            if (i == 2)
-            {
-                set_bkg_tiles(0u, 0u, BackgroundTileMapWidth, BackgroundTileMapHeight, BackgroundTileMapNight);
-            }
-            wait_vbl_done();
-            delay(200);
-        }
-    }
-    else
-    {
-        for (uint8_t i = 0; i < NUM_STEPS; i++)
-        {
-            BGP_REG = palette_inverted[i];
-            OBP0_REG = palette_inverted[i];
-            if (i == 2)
-            {
-                set_bkg_tiles(0u, 0u, BackgroundTileMapWidth, BackgroundTileMapHeight, BackgroundTileMapDay);
-            }
-            wait_vbl_done();
-            delay(200);
-        }
-    }
-
-    night = !night;
-}
 
 void initialize_game(void)
 {
@@ -84,17 +51,58 @@ void initialize_game(void)
     DISPLAY_ON; // Turn on Display
 }
 
+void night_transition(void)
+{
+    pause();
+    if (!night)
+    {
+        for (uint8_t i = 0; i < NUM_STEPS; i++)
+        {
+            BGP_REG = palette_normal[i];
+            OBP0_REG = palette_normal[i];
+            if (i == 2)
+            {
+                set_bkg_tiles(0u, 0u, BackgroundTileMapWidth, BackgroundTileMapHeight, BackgroundTileMapNight);
+            }
+            wait_vbl_done();
+            delay(200);
+        }
+    }
+    else
+    {
+        for (uint8_t i = 0; i < NUM_STEPS; i++)
+        {
+            BGP_REG = palette_inverted[i];
+            OBP0_REG = palette_inverted[i];
+            if (i == 2)
+            {
+                set_bkg_tiles(0u, 0u, BackgroundTileMapWidth, BackgroundTileMapHeight, BackgroundTileMapDay);
+            }
+            wait_vbl_done();
+            delay(200);
+        }
+    }
+
+    unpause();
+    night = !night;
+}
+
+void pause(void) {
+    last_speed = speed;
+    speed = 0;
+}
+
+void unpause(void) {
+    speed = last_speed;
+}
+
 void game_over(void)
 {
     is_game_over = TRUE;
 
     speed = 0;
 
-    NR10_REG = 0x1E; // Sweep: fast pitch rise
-    NR11_REG = 0x10; // Duty cycle: 25%, Length: short
-    NR12_REG = 0xF3; // Volume: max, Envelope: quick fade
-    NR13_REG = 0x00; // Frequency low bits
-    NR14_REG = 0x87; // Frequency high bits + start sound
+    play_game_over_sound();
 
     set_sprite_tile(SPRITE_DINO_HEAD_1, TILE_DINO_HEAD_1_GAME_OVER);
     set_sprite_tile(SPRITE_DINO_BODY_2, TILE_DINO_HEAD_2_GAME_OVER);
