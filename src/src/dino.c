@@ -2,12 +2,12 @@
 #include "../include/dino.h"
 
 uint8_t dino_y;
+uint8_t dino_default_x = 24u;
+uint8_t dino_default_y = 95u;
 uint8_t is_jumping = 0;
 uint8_t jump_hold_time = 0;
 uint8_t velocity_Y = 0;
 uint8_t gravity = 1;
-uint8_t dino_default_x = 24u;
-uint8_t dino_default_y = 95u;
 
 BOOLEAN dino_anim_flag = TRUE;
 
@@ -15,7 +15,7 @@ void set_dino(void)
 {
     dino_y = dino_default_y;
 
-    set_sprite_data(0, 11, DinoTileSet);
+    set_sprite_data(1, 11, DinoTileSet);
 
     set_sprite_tile(SPRITE_DINO_HEAD_1, TILE_DINO_HEAD_1);
     set_sprite_tile(SPRITE_DINO_HEAD_2, TILE_DINO_HEAD_2);
@@ -61,18 +61,18 @@ void update_dino(void)
 
 void check_jump(void)
 {
-    if ((joypad() & J_A) && is_jumping)
-    {
-        if (jump_hold_time < 10)
-        {
-            velocity_Y -= 1;
-            jump_hold_time++;
-        }
-    }
+    // if ((joypad() & J_A) && is_jumping)
+    // {
+    //     if (jump_hold_time < 10)
+    //     {
+    //         velocity_Y -= 1;
+    //         jump_hold_time++;
+    //     }
+    // }
 
     if ((joypad() & J_A) && !is_jumping)
     {
-        velocity_Y = velocity_Y -3;
+        velocity_Y = velocity_Y - 10;
         is_jumping = 1;
         jump_hold_time = 0;
         play_jump_sound();
@@ -96,7 +96,7 @@ void check_jump(void)
 void dino_reset(void)
 {
     dino_y = dino_default_y;
-    velocity_Y = 0;       // Vertical velocity for jump control
-    is_jumping = 0;       // flag for jump control
-    jump_hold_time = 0;   // Time the jump button is held
+    velocity_Y = 0;     // Vertical velocity for jump control
+    is_jumping = 0;     // flag for jump control
+    jump_hold_time = 0; // Time the jump button is held
 }

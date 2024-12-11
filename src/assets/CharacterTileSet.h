@@ -1,6 +1,6 @@
 /*
 
- CACTUSTILESET.H
+ CHARACTERTILESET.H
 
  Include File.
 
@@ -10,7 +10,7 @@
   Compression          : None.
   Counter              : None.
   Tile size            : 8 x 8
-  Tiles                : 0 to 8
+  Tiles                : 0 to 21
 
   Palette colors       : None.
   SGB Palette          : None.
@@ -24,8 +24,8 @@
 
 
 /* Bank of tiles. */
-#define CactusTileSetBank 0
+#define CharacterTileSetBank 0
 /* Start of tile array. */
-extern unsigned char CactusTileSet[];
+extern unsigned char CharacterTileSet[];
 
-/* End of CACTUSTILESET.H */
+/* End of CHARACTERTILESET.H */

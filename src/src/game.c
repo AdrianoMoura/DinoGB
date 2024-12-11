@@ -2,10 +2,11 @@
 #include "../include/game.h"
 
 BOOLEAN is_game_over = FALSE;
-uint8_t speed = 1; // initial speed
+uint8_t speed = MIN_SPEED; // initial speed
 uint8_t max_speed = 5;
 uint8_t last_speed = 1;
 uint8_t night = FALSE;
+uint32_t score = 0;
 
 // Pallete transition for night and day effect
 const uint8_t palette_normal[] = {
@@ -23,6 +24,39 @@ const uint8_t palette_inverted[] = {
 };
 
 #define NUM_STEPS 4
+
+void main_screen(void)
+{
+    set_sprite_data(25u, 22, CharacterTileSet);
+
+    set_sprite_tile(LETTER_1_SPRITE, P_TILE);
+    set_sprite_tile(LETTER_2_SPRITE, R_TILE);
+    set_sprite_tile(LETTER_3_SPRITE, E_TILE);
+    set_sprite_tile(LETTER_4_SPRITE, S_TILE);
+    set_sprite_tile(LETTER_5_SPRITE, S_TILE);
+
+    set_sprite_tile(LETTER_6_SPRITE, A_TILE);
+    set_sprite_tile(LETTER_7_SPRITE, N_TILE);
+    set_sprite_tile(LETTER_8_SPRITE, Y_TILE);
+
+    set_sprite_tile(LETTER_9_SPRITE, K_TILE);
+    set_sprite_tile(LETTER_10_SPRITE, E_TILE);
+    set_sprite_tile(LETTER_11_SPRITE, Y_TILE);
+
+    move_sprite(LETTER_1_SPRITE, 60, 5 * 10u);
+    move_sprite(LETTER_2_SPRITE, 68, 5 * 10u);
+    move_sprite(LETTER_3_SPRITE, 76, 5 * 10u);
+    move_sprite(LETTER_4_SPRITE, 84, 5 * 10u);
+    move_sprite(LETTER_5_SPRITE, 92, 5 * 10u);
+
+    move_sprite(LETTER_6_SPRITE, 68, 6 * 10u);
+    move_sprite(LETTER_7_SPRITE, 76, 6 * 10u);
+    move_sprite(LETTER_8_SPRITE, 84, 6 * 10u);
+
+    move_sprite(LETTER_9_SPRITE, 68, 7 * 10u);
+    move_sprite(LETTER_10_SPRITE, 76, 7 * 10u);
+    move_sprite(LETTER_11_SPRITE, 84, 7 * 10u);
+}
 
 void initialize_game(void)
 {
@@ -104,19 +138,89 @@ void game_over(void)
     is_game_over = TRUE;
 
     speed = 0;
+    score = 0;
 
     play_game_over_sound();
 
     set_sprite_tile(SPRITE_DINO_HEAD_1, TILE_DINO_HEAD_1_GAME_OVER);
     set_sprite_tile(SPRITE_DINO_BODY_2, TILE_DINO_HEAD_2_GAME_OVER);
+
+    set_sprite_tile(LETTER_1_SPRITE, G_TILE);
+    set_sprite_tile(LETTER_2_SPRITE, A_TILE);
+    set_sprite_tile(LETTER_3_SPRITE, M_TILE);
+    set_sprite_tile(LETTER_4_SPRITE, E_TILE);
+
+    set_sprite_tile(LETTER_5_SPRITE, O_TILE);
+    set_sprite_tile(LETTER_6_SPRITE, V_TILE);
+    set_sprite_tile(LETTER_7_SPRITE, E_TILE);
+    set_sprite_tile(LETTER_8_SPRITE, R_TILE);
+
+    move_sprite(LETTER_1_SPRITE, 72, 5 * 10u);
+    move_sprite(LETTER_2_SPRITE, 80, 5 * 10u);
+    move_sprite(LETTER_3_SPRITE, 88, 5 * 10u);
+    move_sprite(LETTER_4_SPRITE, 96, 5 * 10u);
+
+    move_sprite(LETTER_5_SPRITE, 72, 6 * 10u);
+    move_sprite(LETTER_6_SPRITE, 80, 6 * 10u);
+    move_sprite(LETTER_7_SPRITE, 88, 6 * 10u);
+    move_sprite(LETTER_8_SPRITE, 96, 6 * 10u);
+
+    delay(1000);
 }
 
 void restart_game(void)
 {
     is_game_over = FALSE;
     frame_count = 0;
-    speed = 1;
+    speed = MIN_SPEED;
 
     dino_reset();
+    cactus_reset();
     parallax_reset();
+}
+
+void check_collision(void)
+{
+    uint8_t d_x1 = dino_default_x + 16; // Check the point at the face of the Dino
+    uint8_t d_x2 = dino_default_x + 6;  // Check the point at the face of the Dino
+
+    uint8_t d_y = dino_y + 12; // Check the point at the feet of the dino
+
+    uint8_t cactus_width = cactus[cactus_first_pointer].cactus_type == 1 ? 9 : 14;
+
+    uint8_t cactus_x1 = cactus[cactus_first_pointer].x;
+    uint8_t cactus_x2 = cactus[cactus_first_pointer].x + cactus_width;
+
+    uint8_t cactus_y = cactus[cactus_first_pointer].y;
+
+    if (d_x1 > cactus_x1 && d_x2 < cactus_x2 && d_y > cactus_y)
+    {
+        game_over();
+    }
+}
+
+void clear_sprites(void)
+{
+    for (uint8_t i = 10; i < 40; i++)
+    {
+        set_sprite_tile(i, 0);
+        move_sprite(i, 0, 0);
+    }
+}
+
+void draw_score(void)
+{
+    uint32_t remaining_score = score;
+    uint8_t count = 0;
+
+    while (remaining_score > 0)
+    {
+        uint8_t removed_number = remaining_score % 10;
+
+        set_sprite_tile(NUMBER_SPRITE_OFFSET - count, NUMBER_CHARACTERS_OFFSET + removed_number);
+        move_sprite(NUMBER_SPRITE_OFFSET - count, SCREENWIDTH - count * 7 - 6, 20);
+
+        remaining_score = remaining_score / 10;
+        count++;
+    }
 }

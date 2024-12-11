@@ -3,34 +3,47 @@
 
 #include <gb/gb.h>
 #include "assets.h"
+#include "../include/game.h"
+
+typedef struct
+{
+    int16_t x;
+    uint8_t y;
+    uint8_t cactus_type;
+    uint8_t active;
+} Cactus;
+
+#define MAX_CACTUS 3       // Max number o cacti at the same time
+#define SPAWN_INTERVAL 120 // Spawn interval
+
+extern Cactus cactus[MAX_CACTUS]; // cactus pool
+extern uint8_t cactus_first_pointer;
 
 // Tile Position on Memory for each part of the Cactus Sprite
-#define TILE_SMALL_CACTUS_0_0 7 + 10
-#define TILE_SMALL_CACTUS_0_1 8 + 10
-#define TILE_SMALL_CACTUS_1_1 9 + 10
+// 16 are the total position reserved for the Dino Sprite
+#define TILE_SMALL_CACTUS_0_0 6 + 16
+#define TILE_SMALL_CACTUS_0_1 7 + 16
+#define TILE_SMALL_CACTUS_1_1 8 + 16
 
-#define TILE_BIG_CACTUS_0_0 0 + 10
-#define TILE_BIG_CACTUS_0_1 2 + 10
-#define TILE_BIG_CACTUS_0_2 1 + 10
-#define TILE_BIG_CACTUS_1_0 4 + 10
-#define TILE_BIG_CACTUS_1_1 3 + 10
-#define TILE_BIG_CACTUS_1_2 5 + 10
-#define TILE_BIG_CACTUS_2_1 6 + 10
+#define TILE_BIG_CACTUS_0_0 0 + 16
+#define TILE_BIG_CACTUS_0_1 1 + 16
+#define TILE_BIG_CACTUS_1_0 2 + 16
+#define TILE_BIG_CACTUS_1_1 3 + 16
+#define TILE_BIG_CACTUS_2_1 4 + 16
+#define TILE_BIG_CACTUS_2_2 5 + 16
 
-// Sprite identification for each part of cactus body
-#define SPRITE_SMALL_CACTUS_0_0 7
-#define SPRITE_SMALL_CACTUS_0_1 8
-#define SPRITE_SMALL_CACTUS_1_1 9
-
-#define SPRITE_BIG_CACTUS_0_0 10
-#define SPRITE_BIG_CACTUS_0_1 11
-#define SPRITE_BIG_CACTUS_0_2 12
-#define SPRITE_BIG_CACTUS_1_0 13
-#define SPRITE_BIG_CACTUS_1_1 14
-#define SPRITE_BIG_CACTUS_1_2 15
-#define SPRITE_BIG_CACTUS_2_1 16
+#define SPRITE_START_INDEX 11
+#define MIN_DISTANCE 200
+#define MAX_RAND_DISTANCE 100
 
 void set_cactus(void);
+void initialize_cactus(void);
 void update_cactus(void);
+void move_cactus(void);
+void remove_cactus(void);
+void render_cactus(uint8_t index);
+void spawn_cactus(void);
+uint8_t random_spawn(void);
+void cactus_reset(void);
 
 #endif
