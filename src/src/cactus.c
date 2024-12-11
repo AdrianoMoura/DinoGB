@@ -9,6 +9,5 @@ void set_cactus(void)
 
 void update_cactus(void)
 {
-    // Logic for moving cacti
-    // Example: shift cacti left and reset position when off-screen
+    // Logic for moving cactus
 }
