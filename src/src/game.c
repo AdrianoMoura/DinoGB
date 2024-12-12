@@ -27,7 +27,7 @@ const uint8_t palette_inverted[] = {
 
 void main_screen(void)
 {
-    set_sprite_data(25u, 22, CharacterTileSet);
+    set_sprite_data(28u, 22, CharacterTileSet);
 
     set_sprite_tile(LETTER_1_SPRITE, P_TILE);
     set_sprite_tile(LETTER_2_SPRITE, R_TILE);
@@ -142,8 +142,26 @@ void game_over(void)
 
     play_game_over_sound();
 
+    set_sprite_tile(SPRITE_DINO_DOWN_HEAD_2, 0);
+    move_sprite(SPRITE_DINO_DOWN_HEAD_2, 0, 0);
+
     set_sprite_tile(SPRITE_DINO_HEAD_1, TILE_DINO_HEAD_1_GAME_OVER);
+    set_sprite_tile(SPRITE_DINO_BODY_1, TILE_DINO_BODY_1);
     set_sprite_tile(SPRITE_DINO_BODY_2, TILE_DINO_HEAD_2_GAME_OVER);
+    set_sprite_tile(SPRITE_DINO_HEAD_2, TILE_DINO_HEAD_2);
+    set_sprite_tile(SPRITE_DINO_BODY_3, TILE_DINO_BODY_3);
+    
+    set_sprite_tile(SPRITE_DINO_FOOT_LEFT, TILE_DINO_FOOT_LEFT_FLOOR);
+    set_sprite_tile(SPRITE_DINO_FOOT_RIGHT, TILE_DINO_FOOT_RIGHT_FLOOR);
+
+    move_sprite(SPRITE_DINO_HEAD_1, dino_default_x + 8u, dino_y);
+    move_sprite(SPRITE_DINO_HEAD_2, dino_default_x + 16u, dino_y);
+    move_sprite(SPRITE_DINO_BODY_1, dino_default_x, dino_y + 8u);
+    move_sprite(SPRITE_DINO_BODY_2, dino_default_x + 8u, dino_y + 8u);
+    move_sprite(SPRITE_DINO_BODY_3, dino_default_x + 16u, dino_y + 8u);
+
+    move_sprite(SPRITE_DINO_FOOT_LEFT, dino_default_x, dino_y + 16u);
+    move_sprite(SPRITE_DINO_FOOT_RIGHT, dino_default_x + 8u, dino_y + 16u);
 
     set_sprite_tile(LETTER_1_SPRITE, G_TILE);
     set_sprite_tile(LETTER_2_SPRITE, A_TILE);

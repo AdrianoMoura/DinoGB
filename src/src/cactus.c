@@ -11,7 +11,7 @@ uint32_t last_frame_count = 0;
 
 void set_cactus(void)
 {
-    set_sprite_data(16, 9, CactusTileSet);
+    set_sprite_data(19, 9, CactusTileSet);
     // Configure cactus sprites
 
     // set_sprite_tile(TILE_SMALL_CACTUS_0_0, SPRITE_SMALL_CACTUS_0_0);

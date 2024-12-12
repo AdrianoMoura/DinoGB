@@ -14,20 +14,20 @@ extern uint32_t score;
 
 #define MIN_SPEED 2
 
-#define P_TILE 1 + 24
-#define R_TILE 2 + 24
-#define E_TILE 3 + 24
-#define S_TILE 4 + 24
-#define A_TILE 5 + 24
-#define N_TILE 6 + 24
-#define Y_TILE 7 + 24
-#define K_TILE 8 + 24
-#define G_TILE 9 + 24
-#define M_TILE 10 + 24
-#define O_TILE 11 + 24
-#define V_TILE 12 + 24
+#define P_TILE 1 + 27
+#define R_TILE 2 + 27
+#define E_TILE 3 + 27
+#define S_TILE 4 + 27
+#define A_TILE 5 + 27
+#define N_TILE 6 + 27
+#define Y_TILE 7 + 27
+#define K_TILE 8 + 27
+#define G_TILE 9 + 27
+#define M_TILE 10 + 27
+#define O_TILE 11 + 27
+#define V_TILE 12 + 27
 
-#define NUMBER_CHARACTERS_OFFSET 13 + 24
+#define NUMBER_CHARACTERS_OFFSET 13 + 27
 #define NUMBER_SPRITE_OFFSET 39
 
 #define LETTER_1_SPRITE 35 - 1

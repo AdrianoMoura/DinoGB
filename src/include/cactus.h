@@ -20,17 +20,17 @@ extern Cactus cactus[MAX_CACTUS]; // cactus pool
 extern uint8_t cactus_first_pointer;
 
 // Tile Position on Memory for each part of the Cactus Sprite
-// 16 are the total position reserved for the Dino Sprite
-#define TILE_SMALL_CACTUS_0_0 6 + 16
-#define TILE_SMALL_CACTUS_0_1 7 + 16
-#define TILE_SMALL_CACTUS_1_1 8 + 16
+// 18 are the total position reserved for the Dino Sprite
+#define TILE_SMALL_CACTUS_0_0 6 + 19
+#define TILE_SMALL_CACTUS_0_1 7 + 19
+#define TILE_SMALL_CACTUS_1_1 8 + 19
 
-#define TILE_BIG_CACTUS_0_0 0 + 16
-#define TILE_BIG_CACTUS_0_1 1 + 16
-#define TILE_BIG_CACTUS_1_0 2 + 16
-#define TILE_BIG_CACTUS_1_1 3 + 16
-#define TILE_BIG_CACTUS_2_1 4 + 16
-#define TILE_BIG_CACTUS_2_2 5 + 16
+#define TILE_BIG_CACTUS_0_0 0 + 19
+#define TILE_BIG_CACTUS_0_1 1 + 19
+#define TILE_BIG_CACTUS_1_0 2 + 19
+#define TILE_BIG_CACTUS_1_1 3 + 19
+#define TILE_BIG_CACTUS_2_1 4 + 19
+#define TILE_BIG_CACTUS_2_2 5 + 19
 
 #define SPRITE_START_INDEX 11
 #define MIN_DISTANCE 200

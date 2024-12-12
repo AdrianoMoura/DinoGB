@@ -36,6 +36,7 @@ void main(void)
             move_cactus();
             animate_dino();
             check_jump();
+            check_down();
             check_collision();
 
             // Testing increasing speed
