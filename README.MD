@@ -33,5 +33,3 @@ make.bat
 ```
 
 Get the dino.gb from the build folder and try it on your favorite emulator or using a EverDrive to try it on the original hardware
-
-#### *Still In Development
