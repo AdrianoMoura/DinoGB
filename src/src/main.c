@@ -14,7 +14,6 @@ void main(void)
         frame_count++;
         update_dino();
         main_screen();
-        animate_dino();
 
         wait_vbl_done();
     }
@@ -24,7 +23,10 @@ void main(void)
     // Set random seed based on the carrier register
     initrand(DIV_REG);
     frame_count = 0;
-    
+
+    set_sprite_tile(SCORE_SPRITE_OFFSET, NUMBER_CHARACTERS_OFFSET);
+    move_sprite(SCORE_SPRITE_OFFSET, SCREENWIDTH - 6, 20);
+
     while (1)
     {
         frame_count++;
@@ -32,12 +34,16 @@ void main(void)
         if (!is_game_over)
         {
             update_dino();
-            update_cactus();
-            move_cactus();
-            animate_dino();
+
+            update_obstacle();
+
             check_jump();
             check_down();
-            check_collision();
+
+            if (check_collision())
+            {
+                game_over();
+            }
 
             // Testing increasing speed
             if (frame_count % (60 * 10) == 0)

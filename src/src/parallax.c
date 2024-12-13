@@ -1,7 +1,6 @@
 #include <gb/gb.h>
 #include "../include/parallax.h"
 
-
 uint8_t section1 = 0;
 uint8_t section2 = 0;
 uint8_t section3 = 0;

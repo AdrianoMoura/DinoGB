@@ -5,6 +5,7 @@
 #include "../assets/BackgroundTileMapNight.h"
 #include "../assets/BackgroundTileSet.h"
 #include "../assets/CactusTileSet.h"
+#include "../assets/BirdTileSet.h"
 #include "../assets/DinoTileSet.h"
 #include "../assets/CharacterTileSet.h"
 

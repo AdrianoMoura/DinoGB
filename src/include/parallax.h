@@ -2,9 +2,8 @@
 #define PARALLAX_H
 
 #include <gb/gb.h>
-
-#include "assets.h"
-#include "game.h"
+#include "../include/assets.h"
+#include "../include/main.h"
 
 void config_parallax(void);
 void parallax_reset(void);

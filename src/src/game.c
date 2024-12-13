@@ -1,4 +1,5 @@
 #include <gb/gb.h>
+#include <rand.h>
 #include "../include/game.h"
 
 BOOLEAN is_game_over = FALSE;
@@ -6,7 +7,9 @@ uint8_t speed = MIN_SPEED; // initial speed
 uint8_t max_speed = 5;
 uint8_t last_speed = 1;
 uint8_t night = FALSE;
-uint32_t score = 0;
+
+uint16_t score = 0;
+uint16_t highscore = 0;
 
 // Pallete transition for night and day effect
 const uint8_t palette_normal[] = {
@@ -27,7 +30,7 @@ const uint8_t palette_inverted[] = {
 
 void main_screen(void)
 {
-    set_sprite_data(28u, 22, CharacterTileSet);
+    set_sprite_data(CHARACTER_TILE_START_INDEX, COUNT_CHARACTER_TILE, CharacterTileSet);
 
     set_sprite_tile(LETTER_1_SPRITE, P_TILE);
     set_sprite_tile(LETTER_2_SPRITE, R_TILE);
@@ -79,7 +82,7 @@ void initialize_game(void)
     SPRITES_8x8;
 
     set_dino();
-    set_cactus();
+    set_obstacle();
 
     SHOW_SPRITES;
 
@@ -137,31 +140,16 @@ void game_over(void)
 {
     is_game_over = TRUE;
 
+    if (score > highscore)
+    {
+        highscore = score;
+    }
+
     speed = 0;
     score = 0;
 
     play_game_over_sound();
-
-    set_sprite_tile(SPRITE_DINO_DOWN_HEAD_2, 0);
-    move_sprite(SPRITE_DINO_DOWN_HEAD_2, 0, 0);
-
-    set_sprite_tile(SPRITE_DINO_HEAD_1, TILE_DINO_HEAD_1_GAME_OVER);
-    set_sprite_tile(SPRITE_DINO_BODY_1, TILE_DINO_BODY_1);
-    set_sprite_tile(SPRITE_DINO_BODY_2, TILE_DINO_HEAD_2_GAME_OVER);
-    set_sprite_tile(SPRITE_DINO_HEAD_2, TILE_DINO_HEAD_2);
-    set_sprite_tile(SPRITE_DINO_BODY_3, TILE_DINO_BODY_3);
-    
-    set_sprite_tile(SPRITE_DINO_FOOT_LEFT, TILE_DINO_FOOT_LEFT_FLOOR);
-    set_sprite_tile(SPRITE_DINO_FOOT_RIGHT, TILE_DINO_FOOT_RIGHT_FLOOR);
-
-    move_sprite(SPRITE_DINO_HEAD_1, dino_default_x + 8u, dino_y);
-    move_sprite(SPRITE_DINO_HEAD_2, dino_default_x + 16u, dino_y);
-    move_sprite(SPRITE_DINO_BODY_1, dino_default_x, dino_y + 8u);
-    move_sprite(SPRITE_DINO_BODY_2, dino_default_x + 8u, dino_y + 8u);
-    move_sprite(SPRITE_DINO_BODY_3, dino_default_x + 16u, dino_y + 8u);
-
-    move_sprite(SPRITE_DINO_FOOT_LEFT, dino_default_x, dino_y + 16u);
-    move_sprite(SPRITE_DINO_FOOT_RIGHT, dino_default_x + 8u, dino_y + 16u);
+    dino_game_over();
 
     set_sprite_tile(LETTER_1_SPRITE, G_TILE);
     set_sprite_tile(LETTER_2_SPRITE, A_TILE);
@@ -183,7 +171,7 @@ void game_over(void)
     move_sprite(LETTER_7_SPRITE, 88, 6 * 10u);
     move_sprite(LETTER_8_SPRITE, 96, 6 * 10u);
 
-    delay(1000);
+    delay(500);
 }
 
 void restart_game(void)
@@ -192,34 +180,18 @@ void restart_game(void)
     frame_count = 0;
     speed = MIN_SPEED;
 
+    clear_sprites();
+
+    draw_highscore();
+
     dino_reset();
-    cactus_reset();
+    obstacle_reset();
     parallax_reset();
-}
-
-void check_collision(void)
-{
-    uint8_t d_x1 = dino_default_x + 16; // Check the point at the face of the Dino
-    uint8_t d_x2 = dino_default_x + 6;  // Check the point at the face of the Dino
-
-    uint8_t d_y = dino_y + 12; // Check the point at the feet of the dino
-
-    uint8_t cactus_width = cactus[cactus_first_pointer].cactus_type == 1 ? 9 : 14;
-
-    uint8_t cactus_x1 = cactus[cactus_first_pointer].x;
-    uint8_t cactus_x2 = cactus[cactus_first_pointer].x + cactus_width;
-
-    uint8_t cactus_y = cactus[cactus_first_pointer].y;
-
-    if (d_x1 > cactus_x1 && d_x2 < cactus_x2 && d_y > cactus_y)
-    {
-        game_over();
-    }
 }
 
 void clear_sprites(void)
 {
-    for (uint8_t i = 10; i < 40; i++)
+    for (uint8_t i = 8; i < 35; i++)
     {
         set_sprite_tile(i, 0);
         move_sprite(i, 0, 0);
@@ -228,17 +200,57 @@ void clear_sprites(void)
 
 void draw_score(void)
 {
-    uint32_t remaining_score = score;
+    // draw score
+    uint16_t remaining_score = score;
     uint8_t count = 0;
 
-    while (remaining_score > 0)
+    if (remaining_score > 0)
     {
-        uint8_t removed_number = remaining_score % 10;
+        while (remaining_score > 0)
+        {
+            uint8_t last_digit = remaining_score % 10;
 
-        set_sprite_tile(NUMBER_SPRITE_OFFSET - count, NUMBER_CHARACTERS_OFFSET + removed_number);
-        move_sprite(NUMBER_SPRITE_OFFSET - count, SCREENWIDTH - count * 7 - 6, 20);
+            set_sprite_tile(SCORE_SPRITE_OFFSET - count, NUMBER_CHARACTERS_OFFSET + last_digit);
+            move_sprite(SCORE_SPRITE_OFFSET - count, SCREENWIDTH - count * 7 - 6, 20);
 
-        remaining_score = remaining_score / 10;
+            remaining_score = remaining_score / 10;
+            count++;
+        }
+    }
+}
+
+void draw_highscore(void)
+{
+    // draw highscore
+    uint16_t remaining_score = highscore;
+    uint8_t count = 0;
+
+    uint16_t divisor = 1;
+
+    while (remaining_score / divisor >= 10)
+    {
+        divisor *= 10;
+    }
+
+    while (divisor > 0)
+    {
+        uint16_t digit = remaining_score / divisor;
+
+        set_sprite_tile(HIGHSCORE_SPRITE_OFFSET - count, NUMBER_CHARACTERS_OFFSET + digit);
+        move_sprite(HIGHSCORE_SPRITE_OFFSET - count, 19 + count * 7 - 6, 20);
+
+        remaining_score %= divisor;
+        divisor /= 10;             
         count++;
     }
+}
+
+uint8_t random_spawn(void)
+{
+    uint8_t random_number;
+
+    random_number = rand() % (150 - 50 + 1) + 50;
+
+    // Set the new random spawn to be next to the last one or greater than 100 pixels, prevent to spawn more than 2 cactus next to each other
+    return random_number;
 }

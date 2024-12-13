@@ -1,5 +1,5 @@
-#ifndef CACTUS_H
-#define CACTUS_H
+#ifndef BIRD_H
+#define BIRD_H
 
 #include <gb/gb.h>
 #include "../include/assets.h"
@@ -9,8 +9,7 @@
 #include "../include/game.h"
 #include "../include/obstacle.h"
 
-void set_cactus(void);
-void render_small_cactus(uint8_t index, uint8_t sprite_index);
-void render_big_cactus(uint8_t index, uint8_t sprite_index);
+void set_bird(void);
+void render_bird(uint8_t index, uint8_t sprite_index);
 
 #endif
