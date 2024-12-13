@@ -16,7 +16,7 @@ I wanted to challenge myself by making it. Learning the ins and outs of the GBDK
 
 
 ## ⚙️ How to Try It Out
-If you just want to try it just download and run the [dino.gb](https://github.com/AdrianoMoura/DinoGB/blob/master/dino.gb) file.
+If you just want to try it just download and run the [dino.gb](https://github.com/AdrianoMoura/DinoGB/raw/refs/heads/master/dino.gb) file.
 
 If you want to compile the project first you gonna need to download the [GBDK (Game Boy Development Kit)](https://github.com/gbdk-2020/gbdk-2020) and setup the local environment to run it.
 
