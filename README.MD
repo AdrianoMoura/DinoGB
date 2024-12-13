@@ -12,7 +12,7 @@ We’ve all seen (and probably played) the dinosaur game in Google Chrome when t
 
 ## 🛠️ Why Am I Doing This?
 
-I wanted to challenge myself by making it. Learning the ins and outs of the GBDK, working with sprites, sound, and limited hardware is both fun and rewarding. This project is a personal journey into retro game development, and I’m sharing it in case it inspires someone else to dive into Game Boy dev too!
+I wanted to challenge myself by making it. Learning the ins and outs of the Game Boy Architecture, working with sprites, sound, and limited hardware is both fun and rewarding. This project is a personal journey into retro game development, and I’m sharing it in case it inspires someone else to dive into Game Boy dev too!
 
 
 ## ⚙️ How to Try It Out
