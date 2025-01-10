@@ -9,6 +9,7 @@ We’ve all seen (and probably played) the dinosaur game in Google Chrome when t
 ## 🎮 How to Play
 
 - Press **A** to jump.
+- Press **⬇️** to squat.
 
 ## 🛠️ Why Am I Doing This?
 
